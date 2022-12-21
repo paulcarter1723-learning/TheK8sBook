@@ -54,5 +54,41 @@ kubectl rollout undo deployment hello-deploy --to-revision=1
 kubectl delete -f deploy.yml
 kubectl delete -f svc.yml
 
+## Services
 
+kubectl apply -f dual-stack-svc.yml
+kubectl get svc
+kubectl describe svc dual-stack-svc
 
+kubectl apply -f deploy.yml
+kubectl expose deployment svc-test --type=NodePort
+kubectl get svc -o wide
+
+kubectl delete svc svc-test
+
+kubectl apply -f svc.yml
+
+kubectl apply -f lb.yml
+
+kubectl delete -f deploy.yml -f svc.yml -f lb.yml
+
+## Ingress
+
+kubectl get ing
+
+https://github.com/kubernetes/ingress-nginx/releases
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
+kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+
+kubectl get ingressclass
+kubectl describe ingressclass nginx
+
+kubectl apply -f app.yml
+kubectl get pods
+
+kubectl apply -f ig-all.yml
+kubectl get ing
+kubectl describe ing mcu-all
+
+kubectl delete ingress mcu-all
+kubectl delete -f app.yml
