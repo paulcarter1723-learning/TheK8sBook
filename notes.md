@@ -92,3 +92,28 @@ kubectl describe ing mcu-all
 
 kubectl delete ingress mcu-all
 kubectl delete -f app.yml
+
+## Service Discovery
+
+kubectl apply -f sd-example.yml
+
+kubectl get all --namespace dev
+kubectl get all --namespace prod
+
+kubectl exec -it jump --namespace dev -- bash
+cat /etc/resolv.conf
+apt-get update && apt-get install curl -y
+curl ent:8080
+curl ent.prod.svc.cluster.local:8080
+
+kubectl get deploy -n kube-system -l k8s-app=kube-dns
+kubectl get pod -n kube-system -l k8s-app=kube-dns
+kubectl logs coredns-95db45d46-6h8gv -n kube-system
+kubectl get svc kube-dns -n kube-system
+kubectl get endpointslice -n kube-system -l k8s-app=kube-dns
+kubectl run -it dnsutils --image gcr.io/kubernetes-e2e-test-images/dnsutils:1.3
+nslookup kubernetes
+
+kubectl delete pod -n kube-system -l k8s-app=kube-dns
+
+kubectl delete -f sd-example.yml
