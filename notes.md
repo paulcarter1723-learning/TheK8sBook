@@ -117,3 +117,28 @@ nslookup kubernetes
 kubectl delete pod -n kube-system -l k8s-app=kube-dns
 
 kubectl delete -f sd-example.yml
+
+
+## Storage
+
+kubectl get sc
+kubectl describe sc premium-rwo
+
+kubectl get pv
+kubectl get pvc
+
+kubectl apply -f pvc-gke-premium.yml
+kubectl apply -f prempod.yml
+
+kubectl delete pod volpod
+kubectl delete pvc pvc-prem
+
+kubectl apply -f sc-gke-fast-repl.yml
+kubectl apply -f vol-app.yml
+
+kubectl delete -f vol-app.yml
+kubectl delete sc sc-fast-repl
+
+kubectl get pv
+kubectl delete pv ....
+// then delete disk
