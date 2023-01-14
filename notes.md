@@ -146,3 +146,58 @@ kubectl delete pv ....
 ## ConfigMaps
 
 kubectl create configmap testmap1 --from-literal shortname=AOS --from-literal longname="Agents of Shield"
+kubectl describe cm testmap1
+
+kubectl create cm testmap2 --from-file cmfile.txt
+kubectl describe cm testmap2
+
+kubectl get cm testmap1 -o yaml
+
+kubectl apply -f multimap.yml
+kubectl apply -f singlemap.yml
+
+kubectl describe cm multimap
+kubectl describe cm test-config
+
+### Environment variables
+kubectl apply -f envpod.yml
+kubectl exec envpod -- env
+kubectl delete pod envpod
+
+### Startup variables
+kubectl apply -f startuppod.yml
+kubectl logs startup-pod -c args
+kubectl describe pod startup-pod
+kubectl delete pod startup-pod
+
+### Volumes
+
+kubectl apply -f cmpod.yml
+kubectl exec cmvol -- ls /etc/name
+kubectl exec cmvol -- cat /etc/name/given
+
+kubectl edit cm multimap
+
+### Secrets
+
+kubectl describe pod cmvol
+
+kubectl create secret generic creds --from-literal user=zoepg --from-literal pwd=s0nia
+kubectl get secret creds -o yaml
+
+kubectl apply -f tkb-secret.yml
+kubectl apply -f secretpod.yml
+kubectl exec secret-pod -- ls /etc/tkb
+kubectl exec secret-pod -- cat /etc/tkb/passwordkubectl
+
+### tidy up
+
+kubectl delete pod cmvol
+kubectl delete pod secret-pod
+kubectl delete secret creds
+kubectl delete secret tkb-secret
+
+kubectl delete -f multimap.yml
+kubectl delete cm test-config
+kubectl delete cm testmap1
+kubectl delete cm testmap2
