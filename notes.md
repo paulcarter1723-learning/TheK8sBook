@@ -142,3 +142,7 @@ kubectl delete sc sc-fast-repl
 kubectl get pv
 kubectl delete pv ....
 // then delete disk
+
+## ConfigMaps
+
+kubectl create configmap testmap1 --from-literal shortname=AOS --from-literal longname="Agents of Shield"
